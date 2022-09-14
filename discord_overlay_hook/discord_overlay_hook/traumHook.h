@@ -17,6 +17,9 @@ namespace traumHook
 	uintptr_t discordPresentPtr_address; //Discord return Present Pointer		[.data]
 	uintptr_t origPresentPtr_content; //Discord original Present return address [.data]
 
+	//hook mode
+	int mode;
+
 	//MH_CreateHook()
 	__int64 CreateHook(__int64 pTarget, __int64 pDetour, __int64* ppOriginal) {
 		return ((__int64 (*)(__int64, __int64, __int64*))(discordHook64 + discordCreateHook_offset))(pTarget, pDetour, ppOriginal);
@@ -30,25 +33,16 @@ namespace traumHook
 		return ((__int64 (*)())(discordHook64 + discordApplyQueued_offset))();
 	}
 
-	//Present Hook .text
+	//Present Hook
 	__int64(*Present)(void*, __int64, __int64);
-	__int64 main_hook_text(void* swapchain, __int64 interval, __int64 flags)
+	__int64 main_hook(void* swapchain, __int64 interval, __int64 flags)
 	{
 		//calls your "main" function
-		tool::main();
-		
-		//returns original Present
-		return Present(swapchain, interval, flags);
-	}
-
-	//Present Hook .data
-	__int64 main_hook_data(void* swapchain, __int64 interval, __int64 flags)
-	{
-		//calls your "main" function
-		tool::main();
+		tool::main(mode);
 
 		//returns original Present
-		return ((__int64 (*)(void*, __int64, __int64))(origPresentPtr_content))(swapchain, interval, flags);
+		if(mode == MODE_TEXT) return Present(swapchain, interval, flags); //.text
+		else if(mode == MODE_DATA) return ((__int64 (*)(void*, __int64, __int64))(origPresentPtr_content))(swapchain, interval, flags); //.data
 	}
 
 	bool InitializeDiscordHook(int hook_mode)
@@ -56,6 +50,8 @@ namespace traumHook
 		//get module base address
 		discordHook64 = (uintptr_t)GetModuleHandle(L"DiscordHook64.dll");
 		if (!discordHook64) return false;
+
+		mode = hook_mode;
 
 		if (hook_mode == MODE_TEXT) {
 			//pattern scans
@@ -79,7 +75,7 @@ namespace traumHook
 			discordApplyQueued_offset = *(unsigned int*)(discordHook64 + discordApplyQueued_offset + 0x1) + discordApplyQueued_offset + 0x5;
 
 			//create hook
-			if (CreateHook(discordHook64 + discordPresentHook_offset, (__int64)main_hook_text, (__int64*)&Present) != 0) return false;
+			if (CreateHook(discordHook64 + discordPresentHook_offset, (__int64)main_hook, (__int64*)&Present) != 0) return false;
 
 			//queue hook
 			if (QueueEnableHook(discordHook64 + discordPresentHook_offset) != 0) return false;
@@ -99,7 +95,7 @@ namespace traumHook
 
 			//create hook
 			origPresentPtr_content = *(uintptr_t*)(discordPresentPtr_address);
-			*(uintptr_t*)(discordPresentPtr_address) = (uintptr_t)&main_hook_data;
+			*(uintptr_t*)(discordPresentPtr_address) = (uintptr_t)&main_hook;
 
 			return true;
 		}
