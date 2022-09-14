@@ -5,9 +5,9 @@ Simple Discord Present Hook (x64), use of discord's included minhook functions
 -> traumHook.h -> hook logic
 
 utilizing
-MH_CreateHook
-MH_QueueEnableHook
-MH_ApplyQueued
+MH_CreateHook()
+MH_QueueEnableHook()
+MH_ApplyQueued()
 
 or
 
