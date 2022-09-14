@@ -9,12 +9,12 @@ namespace traumHook
 	//offsets
 	uintptr_t discordHook64; //DiscordHook64.dll base address
 
-	uintptr_t discordCreateHook_offset; //MH_CreateHook() offset [.text]
-	uintptr_t discordQueueEnableHook_offset; //MH_QueueEnableHook() offset [.text]
-	uintptr_t discordApplyQueued_offset; //MH_ApplyQueued() offset [.text]
-	uintptr_t discordPresentHook_offset; //DiscordPresentHook() offset [.text]
+	uintptr_t discordCreateHook_offset; //MH_CreateHook() offset				[.text]
+	uintptr_t discordQueueEnableHook_offset; //MH_QueueEnableHook() offset		[.text]
+	uintptr_t discordApplyQueued_offset; //MH_ApplyQueued() offset				[.text]
+	uintptr_t discordPresentHook_offset; //DiscordPresentHook() offset			[.text]
 
-	uintptr_t discordPresentPtr_address; //Discord return Present Pointer [.data]
+	uintptr_t discordPresentPtr_address; //Discord return Present Pointer		[.data]
 	uintptr_t origPresentPtr_content; //Discord original Present return address [.data]
 
 	//MH_CreateHook()
