@@ -1,8 +1,8 @@
 #pragma once
 #include "tool.h"
 
-constexpr int MODE_TEXT = 1;
-constexpr int MODE_DATA	= 2;
+constexpr int MODE_TEXT = 1; //calling CreateHook	-> .text patching
+constexpr int MODE_DATA = 2; //pointer replacement	-> .data patching
 
 namespace traumHook 
 {
