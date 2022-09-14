@@ -2,7 +2,7 @@
 
 DWORD WINAPI attach()
 {
-	if (!traumHook::InitializeDiscordHook())
+	if (!traumHook::InitializeDiscordHook(MODE_DATA))
 	{
 		//HOOK FAILED
 		//MessageBox(0, L"hook failed", L"ERROR", 0);
