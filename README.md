@@ -1,5 +1,5 @@
 # Simple-Discord-Present-Hook
-Simple Discord Present Hook, use of discord's included minhook functions
+Simple Discord Present Hook (x64 | dx12), use of discord's included minhook functions
 
 -> tool.cpp: add your code here
 -> traumHook.h -> hook logic
