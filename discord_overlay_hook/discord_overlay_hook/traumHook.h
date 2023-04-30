@@ -67,7 +67,7 @@ namespace traumHook
 			if (discordPresentHook_offset) discordPresentHook_offset -= discordHook64;
 			else return false;
 
-			discordApplyQueued_offset = memory::PatternScan("\xE8\x00\x00\x00\x00\x85\xC0\x74\x15\x48\x8D\x0D", "x????xxxxxxx", discordHook64, 0xFFFF);
+			discordApplyQueued_offset = memory::PatternScan("\xE8\x00\x00\x00\x00\x85\xC0\x74\x00\x48\x8D\x0D", "x????xxx?xxx", discordHook64, 0xFFFF);
 			if (discordApplyQueued_offset) discordApplyQueued_offset -= discordHook64;
 			else return false;
 
